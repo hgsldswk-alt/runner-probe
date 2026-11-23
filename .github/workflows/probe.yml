@@ -1,0 +1,17 @@
+name: probe
+on: workflow_dispatch
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["macos-27", "macos-26", "xcode-27", "macos-latest"]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - run: |
+          echo "PROBE label=${{ matrix.os }}"
+          sw_vers
+          xcodebuild -version
+          ls /Applications | grep -i xcode
+          xcodebuild -showsdks | grep -i ios
